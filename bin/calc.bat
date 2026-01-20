@@ -1,28 +1,29 @@
-::修改: n
+::Chinese text: n
 
-::call calc p       输出变量名  [nodec nodec-intp1 dec-保留小数位数]  数字1   数字2
-::          s       输出变量名  [nodec nodec-intp1 dec-保留小数位数]  数字1   数字2
-::          m       输出变量名  [nodec nodec-intp1 dec-保留小数位数]  数字1   数字2
-::          d       输出变量名  [nodec nodec-intp1 dec-保留小数位数]  数字1   数字2
-::          b2sec   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  b       扇区大小
-::          sec2b   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  扇区数目 扇区大小
-::          b2kb    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  b
-::          kb2b    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  kb
-::          b2mb    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  b
-::          mb2b    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  mb
-::          b2gb    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  b
-::          gb2b    输出变量名  [nodec nodec-intp1 dec-保留小数位数]  gb
-::          sec2kb  输出变量名  [nodec nodec-intp1 dec-保留小数位数]  扇区数目 扇区大小
-::          kb2sec  输出变量名  [nodec nodec-intp1 dec-保留小数位数]  kb      扇区大小
-::          kb2mb   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  kb
-::          mb2kb   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  mb
-::          kb2gb   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  kb
-::          gb2kb   输出变量名  [nodec nodec-intp1 dec-保留小数位数]  gb
+::call calc p       Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text 1   Chinese text 2
+::          s       Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text 1   Chinese text 2
+::          m       Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text 1   Chinese text 2
+::          d       Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text 1   Chinese text 2
+::          b2sec   Chinese text  [nodec nodec-intp1 dec- Chinese text]  b       Chinese text
+::          sec2b   Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text Chinese text
+::          b2kb    Chinese text  [nodec nodec-intp1 dec- Chinese text]  b
+::          kb2b    Chinese text  [nodec nodec-intp1 dec- Chinese text]  kb
+::          b2mb    Chinese text  [nodec nodec-intp1 dec- Chinese text]  b
+::          mb2b    Chinese text  [nodec nodec-intp1 dec- Chinese text]  mb
+::          b2gb    Chinese text  [nodec nodec-intp1 dec- Chinese text]  b
+::          gb2b    Chinese text  [nodec nodec-intp1 dec- Chinese text]  gb
+::          sec2kb  Chinese text  [nodec nodec-intp1 dec- Chinese text]  Chinese text Chinese text
+::          kb2sec  Chinese text  [nodec nodec-intp1 dec- Chinese text]  kb      Chinese text
+::          kb2mb   Chinese text  [nodec nodec-intp1 dec- Chinese text]  kb
+::          mb2kb   Chinese text  [nodec nodec-intp1 dec- Chinese text]  mb
+::          kb2gb   Chinese text  [nodec nodec-intp1 dec- Chinese text]  kb
+::          gb2kb   Chinese text  [nodec nodec-intp1 dec- Chinese text]  gb
 
-::          numcomp 数字1       数字2
+::          numcomp Chinese text 1       Chinese text 2
 
 
 @ECHO OFF
+chcp 65001 >nul
 set args1=%1& set args2=%2& set args3=%3& set args4=%4& set args5=%5& set args6=%6& set args7=%7& set args8=%8& set args9=%9
 
 SETLOCAL
@@ -37,11 +38,11 @@ set num1=%args2%& set num2=%args3%
 set result=
 for /f "tokens=1 delims=#" %%a in ('numcomp.exe %num1% %num2%') do set result=%%a
 if not "%result%"=="greater" (if not "%result%"=="less" (if not "%result%"=="equal" goto NUMCOMP-FAILED))
-call log %logger% I 数字1:%num1%.数字2:%num2%.比较结果:%result%
+call log %logger% I Chinese text 1:%num1%. Chinese text 2:%num2%. Chinese text:%result%
 ENDLOCAL & set calc__numcomp__result=%result%
 goto :eof
 :NUMCOMP-FAILED
-ECHOC {%c_e%}比较大小失败:数字1:%num1%.数字2:%num2%.比较结果:%result%{%c_i%}{\n}& call log %logger% F 比较大小失败:数字1:%num1%.数字2:%num2%.比较结果:%result%
+ECHOC {%c_e%}Chinese text:Chinese text 1:%num1%. Chinese text 2:%num2%. Chinese text:%result%{%c_i%}{\n}& call log %logger% F Chinese text:Chinese text 1:%num1%. Chinese text 2:%num2%. Chinese text:%result%
 goto FATAL
 
 
@@ -50,7 +51,7 @@ call :calcmode-argsprocess
 set b=%args4%
 for /f %%a in ('calc.exe %b% d 1073741824 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:b:%b%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:b:%b%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -59,7 +60,7 @@ call :calcmode-argsprocess
 set gb=%args4%
 for /f %%a in ('calc.exe %gb% m 1073741824 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:gb:%gb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:gb:%gb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -68,7 +69,7 @@ call :calcmode-argsprocess
 set b=%args4%
 for /f %%a in ('calc.exe %b% d 1048576 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:b:%b%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:b:%b%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -77,7 +78,7 @@ call :calcmode-argsprocess
 set mb=%args4%
 for /f %%a in ('calc.exe %mb% m 1048576 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:mb:%mb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:mb:%mb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -86,7 +87,7 @@ call :calcmode-argsprocess
 set sec=%args4%& set secsize=%args5%
 for /f %%a in ('calc.exe %sec% m %secsize% %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:sec:%sec%.secsize:%secsize%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:sec:%sec%.secsize:%secsize%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -95,7 +96,7 @@ call :calcmode-argsprocess
 set b=%args4%& set secsize=%args5%
 for /f %%a in ('calc.exe %b% d %secsize% %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:b:%b%.secsize:%secsize%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:b:%b%.secsize:%secsize%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -105,7 +106,7 @@ set sec=%args4%& set secsize=%args5%
 for /f %%a in ('calc.exe %sec% m %secsize% 12') do set var=%%a
 for /f %%a in ('calc.exe %var% d 1024 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:sec:%sec%.secsize:%secsize%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:sec:%sec%.secsize:%secsize%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -115,7 +116,7 @@ set kb=%args4%& set secsize=%args5%
 for /f %%a in ('calc.exe %kb% m 1024 12') do set var=%%a
 for /f %%a in ('calc.exe %var% d %secsize% %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:kb:%kb%.secsize:%secsize%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:kb:%kb%.secsize:%secsize%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -124,7 +125,7 @@ call :calcmode-argsprocess
 set kb=%args4%
 for /f %%a in ('calc.exe %kb% d 1024 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:kb:%kb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:kb:%kb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -133,7 +134,7 @@ call :calcmode-argsprocess
 set mb=%args4%
 for /f %%a in ('calc.exe %mb% m 1024 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:mb:%mb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:mb:%mb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -142,7 +143,7 @@ call :calcmode-argsprocess
 set kb=%args4%
 for /f %%a in ('calc.exe %kb% d 1048576 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:kb:%kb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:kb:%kb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -151,7 +152,7 @@ call :calcmode-argsprocess
 set gb=%args4%
 for /f %%a in ('calc.exe %gb% m 1048576 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:gb:%gb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:gb:%gb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -160,7 +161,7 @@ call :calcmode-argsprocess
 set b=%args4%
 for /f %%a in ('calc.exe %b% d 1024 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:b:%b%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:b:%b%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -169,7 +170,7 @@ call :calcmode-argsprocess
 set kb=%args4%
 for /f %%a in ('calc.exe %kb% m 1024 %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入:kb:%kb%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text:kb:%kb%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -186,7 +187,7 @@ call :calcmode-argsprocess
 set input1=%args4%& set input2=%args5%
 for /f %%a in ('calc.exe %input1% %func% %input2% %decnum%') do set result=%%a
 if "%decmode%"=="nodec-intp1" call :calcmode-nodec-intp1
-call log %logger% I 输入1:%input1%.计算方法:%func%.输入2:%input2%.小数处理方法:%decmode%.结果:%output%:%result%
+call log %logger% I Chinese text 1:%input1%. Chinese text:%func%. Chinese text 2:%input2%. Chinese text:%decmode%. Chinese text:%output%:%result%
 ENDLOCAL & set %output%=%result%
 goto :eof
 
@@ -209,5 +210,5 @@ goto :eof
 
 
 :FATAL
-ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}抱歉, 脚本遇到问题, 无法继续运行. 请查看日志. {%c_h%}按任意键退出...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO.抱歉, 脚本遇到问题, 无法继续运行. 按任意键退出...& pause>nul & EXIT)
+ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}Chinese text, Chinese text, Chinese text . Chinese text . {%c_h%}Chinese text ...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO. Chinese text, Chinese text, Chinese text . Chinese text ...& pause>nul & EXIT)
 

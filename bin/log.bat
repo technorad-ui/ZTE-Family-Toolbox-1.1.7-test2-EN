@@ -1,6 +1,6 @@
-::修改: n
+::Chinese text: n
 
-::call log %logger% I 文字
+::call log %logger% I Chinese text
 ::                  W
 ::                  E
 ::                  F
@@ -14,4 +14,4 @@ ECHO.%logtext% & ENDLOCAL & goto :eof
 
 
 :FATAL
-ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}抱歉, 脚本遇到问题, 无法继续运行. 请查看日志. {%c_h%}按任意键退出...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO.抱歉, 脚本遇到问题, 无法继续运行. 按任意键退出...& pause>nul & EXIT)
+ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}Chinese text, Chinese text, Chinese text . Chinese text . {%c_h%}Chinese text ...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO. Chinese text, Chinese text, Chinese text . Chinese text ...& pause>nul & EXIT)

@@ -1,17 +1,18 @@
-::修改: y
+::Chinese text: y
 
-::call framework  startpre     skiptoolchk(可选)
-::                adbpre       [文件名 all]
-::                theme        主题名
-::                conf         配置文件名         变量名        变量值
+::call framework  startpre     skiptoolchk(Chinese text)
+::                adbpre       [Chinese text all]
+::                theme        Chinese text
+::                conf         Chinese text         Chinese text        Chinese text
 ::                logviewer    end
-::                loadcsvconf  csv文件路径        [要加载的项]  [orig full](输出变量名格式)
-::                chkdiskspace [盘符 cur]         要比较的大小
+::                loadcsvconf  csv Chinese text        [Chinese text]  [orig full](Chinese text)
+::                chkdiskspace [Chinese text cur]         Chinese text
 
 ::start framework logviewer start                %logfile%
 
 
 @ECHO OFF
+chcp 65001 >nul
 set args1=%1& set args2=%2& set args3=%3& set args4=%4& set args5=%5& set args6=%6& set args7=%7& set args8=%8& set args9=%9
 goto %args1%
 
@@ -22,22 +23,22 @@ goto %args1%
 SETLOCAL
 set logger=framework.bat-chkdiskspace
 set letter=%args2%& set sizetocompare=%args3%
-call log %logger% I 接收变量:letter:%letter%.sizetocompare:%sizetocompare%
+call log %logger% I Chinese text:letter:%letter%.sizetocompare:%sizetocompare%
 if not "%letter%"=="cur" goto CHKDISKSPACE-1
 set letter=
 for %%a in ("%framework_workspace%") do set letter=%%~da
 :CHKDISKSPACE-1
-if "%letter%"=="" ECHOC {%c_e%}盘符参数缺失或获取失败{%c_i%}{\n}& call log %logger% F 盘符参数缺失或获取失败& goto FATAL
-call log %logger% I 将检查磁盘%letter%
-busybox.exe df -k 1>%tmpdir%\output.txt 2>&1 || type %tmpdir%\output.txt>>%logfile% && ECHOC {%c_e%}列表磁盘失败{%c_i%}{\n}&& call log %logger% F 列表磁盘失败&& goto FATAL
+if "%letter%"=="" ECHOC {%c_e%}Chinese text{%c_i%}{\n}& call log %logger% F Chinese text& goto FATAL
+call log %logger% I Chinese text %letter%
+busybox.exe df -k 1>%tmpdir%\output.txt 2>&1 || type %tmpdir%\output.txt>>%logfile% && ECHOC {%c_e%}Chinese text{%c_i%}{\n}&& call log %logger% F Chinese text&& goto FATAL
 type %tmpdir%\output.txt>>%logfile%
 set spaceleft_kb=
 for /f "tokens=4 delims= " %%a in ('find "%letter%" "%tmpdir%\output.txt"') do set spaceleft_kb=%%a
-if "%spaceleft_kb%"=="" ECHOC {%c_e%}读取磁盘可用空间失败{%c_i%}{\n}& call log %logger% F 读取磁盘可用空间失败& goto FATAL
+if "%spaceleft_kb%"=="" ECHOC {%c_e%}Chinese text{%c_i%}{\n}& call log %logger% F Chinese text& goto FATAL
 call calc m spaceleft nodec %spaceleft_kb% 1024
 call calc numcomp %spaceleft% %sizetocompare%
 if "%calc__numcomp__result%"=="greater" (set enough=y) else (set enough=n)
-call log %logger% I 空间是否足够:%enough%.磁盘可用空间:%spaceleft%.目标大小:%sizetocompare%
+call log %logger% I Chinese text:%enough%. Chinese text:%spaceleft%. Chinese text:%sizetocompare%
 ENDLOCAL & set framework__chkdiskspace__enough=%enough%& set framework__chkdiskspace__spaceleft=%spaceleft%
 goto :eof
 
@@ -46,13 +47,13 @@ goto :eof
 SETLOCAL
 set logger=framework.bat-loadcsvconf
 set filepath=%args2%& set item=%args3%& set mode=%args4%
-call log %logger% I 接收变量:filepath:%filepath%.item:%item%.mode:%mode%
-if not exist %filepath% ECHOC {%c_e%}找不到%filepath%{%c_i%}{\n}& call log %logger% F 找不到%filepath%& goto FATAL
+call log %logger% I Chinese text:filepath:%filepath%.item:%item%.mode:%mode%
+if not exist %filepath% ECHOC {%c_e%}Chinese text %filepath%{%c_i%}{\n}& call log %logger% F Chinese text %filepath%& goto FATAL
 if exist %tmpdir%\loadcsvconf.bat del %tmpdir%\loadcsvconf.bat 1>>%logfile% 2>&1
-find "%item%" "%filepath%" 1>nul 2>nul || ECHOC {%c_e%}在%filepath%中找不到项目%item%{%c_i%}{\n}&& call log %logger% F 在%filepath%中找不到项目%item%&& goto FATAL
+find "%item%" "%filepath%" 1>nul 2>nul || ECHOC {%c_e%}Chinese text %filepath% Chinese text %item%{%c_i%}{\n}&& call log %logger% F Chinese text %filepath% Chinese text %item%&& goto FATAL
 set num=2
 :LOADCSVCONF-1
-if %num% GTR 31 ECHOC {%c_e%}配置项目过多, 超出命令可容纳范围. 请向开发者反馈此问题{%c_i%}{\n}& call log %logger% F 配置项目过多:%num%个.超出命令可容纳范围:31个& goto FATAL
+if %num% GTR 31 ECHOC {%c_e%}Chinese text, Chinese text . Chinese text{%c_i%}{\n}& call log %logger% F Chinese text:%num% Chinese text . Chinese text:31 Chinese text& goto FATAL
 set name=
 for /f "tokens=%num% delims=[]," %%a in ('type %filepath% ^| find "],["') do set name=%%a
 if "%name%"=="" goto LOADCSVCONF-2
@@ -70,9 +71,9 @@ goto :eof
 if "%args2%"=="end" taskkill /f /im busybox-bfflogviewer.exe 1>nul 2>nul & goto :eof
 @ECHO OFF
 COLOR 0F
-TITLE BFF-实时日志监控 [本窗口只监控日志, 不参与脚本运行]
+TITLE BFF- Chinese text [Chinese text, Chinese text]
 ECHO.
-ECHO.当前日志文件: %logfile%
+ECHO. Chinese text: %logfile%
 ECHO.
 call tool\Win\resizecmdwindow.exe -l 0 -r 70 -t 0 -b 20 -w 500 -h 800
 tool\Win\busybox-bfflogviewer.exe tail -f %args3%
@@ -82,13 +83,13 @@ EXIT
 :CONF
 SETLOCAL
 set logger=framework.bat-conf
-call log %logger% I 将向conf\%args2%写入%args3%.值为%args4%
-::if not exist conf\%args2% ECHOC {%c_e%}找不到conf\%args2%{%c_i%}{\n}& call log %logger% F 找不到conf\%args2%& goto FATAL
+call log %logger% I Chinese text conf\%args2% Chinese text %args3%. Chinese text %args4%
+::if not exist conf\%args2% ECHOC {%c_e%}Chinese text conf\%args2%{%c_i%}{\n}& call log %logger% F Chinese text conf\%args2%& goto FATAL
 if not exist conf\%args2% echo.>conf\%args2%
 find "set %args3%=" "conf\%args2%" 1>nul 2>nul || echo.set %args3%=%args4%|findstr "set" 1>>conf\%args2%&& goto CONF-DONE
 type conf\%args2% | find "set " | find /v "set %args3%=" 1>%tmpdir%\output.txt
 echo.set %args3%=%args4%|findstr "set" 1>>%tmpdir%\output.txt
-move /Y %tmpdir%\output.txt conf\%args2% 1>nul || ECHOC {%c_e%}移动%tmpdir%\output.txt到conf\%args2%失败{%c_i%}{\n}&& call log %logger% F 移动%tmpdir%\output.txt到conf\%args2%失败&& goto FATAL
+move /Y %tmpdir%\output.txt conf\%args2% 1>nul || ECHOC {%c_e%}Chinese text %tmpdir%\output.txt Chinese text conf\%args2% Chinese text{%c_i%}{\n}&& call log %logger% F Chinese text %tmpdir%\output.txt Chinese text conf\%args2% Chinese text&& goto FATAL
 :CONF-DONE
 ENDLOCAL
 goto :eof
@@ -109,46 +110,46 @@ goto :eof
 
 :STARTPRE
 if exist tool\logo.txt type tool\logo.txt
-ECHO.正在准备启动...
-::设置path-补充可能确缺少的系统环境路径...
-set path=%path%||ECHO.系统环境变量的Path变量中存在错误的路径. 请更正后再试&& goto FATAL
+ECHO. Chinese text ...
+::Chinese text path- Chinese text ...
+set path=%path%||ECHO. Chinese text Path Chinese text . Chinese text&& goto FATAL
 set path=%path%;%windir%\Sysnative
-::ECHO.检查find, findstr, copy, move, ren, del命令...
+::ECHO. Chinese text find, findstr, copy, move, ren, del Chinese text ...
 echo.test>bff_test1.tmp
-find "test" "bff_test1.tmp"         1>nul || ECHO.执行find命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-findstr "test" "bff_test1.tmp"      1>nul || ECHO.执行findstr命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-copy /Y bff_test1.tmp bff_test2.tmp 1>nul || ECHO.执行copy命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-move /Y bff_test1.tmp bff_test2.tmp 1>nul || ECHO.执行move命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-ren bff_test2.tmp bff_test1.tmp     1>nul || ECHO.执行ren命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-del /F /Q bff_test1.tmp             1>nul || ECHO.执行del命令失败. 系统命令行环境存在问题, 或系统缺少必要组件&& goto FATAL
-::ECHO.获取Windows版本号...
+find "test" "bff_test1.tmp"         1>nul || ECHO. Chinese text find Chinese text . Chinese text, Chinese text&& goto FATAL
+findstr "test" "bff_test1.tmp"      1>nul || ECHO. Chinese text findstr Chinese text . Chinese text, Chinese text&& goto FATAL
+copy /Y bff_test1.tmp bff_test2.tmp 1>nul || ECHO. Chinese text copy Chinese text . Chinese text, Chinese text&& goto FATAL
+move /Y bff_test1.tmp bff_test2.tmp 1>nul || ECHO. Chinese text move Chinese text . Chinese text, Chinese text&& goto FATAL
+ren bff_test2.tmp bff_test1.tmp     1>nul || ECHO. Chinese text ren Chinese text . Chinese text, Chinese text&& goto FATAL
+del /F /Q bff_test1.tmp             1>nul || ECHO. Chinese text del Chinese text . Chinese text, Chinese text&& goto FATAL
+::ECHO. Chinese text Windows Chinese text ...
 for /f "tokens=4 delims=[] " %%a in ('ver ^| find " "') do set winver=%%a
-::ECHO.检查和保存工作目录路径...
-for /f "tokens=2 delims=() " %%a in ('echo." %cd% "') do (if not "%%a"=="%cd%" ECHO.工具箱路径中不允许有空格或英文括号& goto FATAL)
+::ECHO. Chinese text ...
+for /f "tokens=2 delims=() " %%a in ('echo." %cd% "') do (if not "%%a"=="%cd%" ECHO. Chinese text& goto FATAL)
 set framework_workspace=%cd%
-::ECHO.设置path-加入工具箱环境路径...
+::ECHO. Chinese text path- Chinese text ...
 set path=%framework_workspace%;%framework_workspace%\tool\Win;%path%
-::ECHO.检查ECHOC...
-ECHOC | find "Usage" 1>nul 2>nul || ECHO.ECHOC.exe无法运行&& goto FATAL
-::ECHO.检查gettime...
-if not exist tool\Win\gettime.exe ECHOC {%c_e%}找不到gettime.exe{%c_i%}{\n}& goto FATAL
-gettime.exe | find "." 1>nul 2>nul || ECHOC {%c_e%}gettime.exe无法运行{%c_i%}{\n}&& goto FATAL
-::ECHO.准备tmp目录
-if not exist tmp md tmp 1>nul || ECHOC {%c_e%}创建tmp文件夹失败{%c_i%}{\n}&& goto FATAL
+::ECHO. Chinese text ECHOC...
+ECHOC | find "Usage" 1>nul 2>nul || ECHO.ECHOC.exe Chinese text&& goto FATAL
+::ECHO. Chinese text gettime...
+if not exist tool\Win\gettime.exe ECHOC {%c_e%}Chinese text gettime.exe{%c_i%}{\n}& goto FATAL
+gettime.exe | find "." 1>nul 2>nul || ECHOC {%c_e%}gettime.exe Chinese text{%c_i%}{\n}&& goto FATAL
+::ECHO. Chinese text tmp Chinese text
+if not exist tmp md tmp 1>nul || ECHOC {%c_e%}Chinese text tmp Chinese text{%c_i%}{\n}&& goto FATAL
 if not "%framework_multitmpdir%"=="y" set framework_multitmpdir=n& set tmpdir=%framework_workspace%\tmp
 if "%framework_multitmpdir%"=="y" (for /f %%a in ('gettime.exe ^| find "."') do set tmpdir=%framework_workspace%\tmp\%%a)
-if not exist %tmpdir% md %tmpdir% 1>nul || ECHOC {%c_e%}创建%tmpdir%文件夹失败{%c_i%}{\n}&& goto FATAL
-::ECHO.准备日志系统...
-if not exist log.bat ECHOC {%c_e%}找不到log.bat{%c_i%}{\n}& goto FATAL
+if not exist %tmpdir% md %tmpdir% 1>nul || ECHOC {%c_e%}Chinese text %tmpdir% Chinese text{%c_i%}{\n}&& goto FATAL
+::ECHO. Chinese text ...
+if not exist log.bat ECHOC {%c_e%}Chinese text log.bat{%c_i%}{\n}& goto FATAL
 if "%framework_log%"=="n" set logfile=nul& set logger=CLOSED
 if "%framework_log%"=="n" SETLOCAL & goto STARTPRE-2
-if not exist log md log 1>nul || ECHOC {%c_e%}创建log文件夹失败{%c_i%}{\n}&& goto FATAL
+if not exist log md log 1>nul || ECHOC {%c_e%}Chinese text log Chinese text{%c_i%}{\n}&& goto FATAL
 for /f %%a in ('gettime.exe ^| find "."') do set logfile=%framework_workspace%\log\%%a.log
 set logger=UNKNOWN
 SETLOCAL
 set logger=framework.bat-startpre
-call log %logger% I 系统信息:%processor_architecture%.%winver%.工作目录:%framework_workspace%
-::ECHO.清理日志...
+call log %logger% I Chinese text:%processor_architecture%.%winver%. Chinese text:%framework_workspace%
+::ECHO. Chinese text ...
 if "%framework_lognum%"=="" set framework_lognum=6
 for /f %%a in ('dir /B log ^| find /C ".log"') do (if %%a LEQ %framework_lognum% goto STARTPRE-2)
 for /f "tokens=1 delims=[]" %%a in ('dir /B log ^| find /N ".log"') do set /a var=%%a-%framework_lognum%
@@ -157,144 +158,144 @@ dir /B log | find /N ".log" | find "[%var%]" 1>nul 2>nul || goto STARTPRE-2
 for /f "tokens=2 delims=[]" %%a in ('dir /B log ^| find /N ".log" ^| find "[%var%]"') do del log\%%a 1>nul
 set /a var+=-1& goto STARTPRE-1
 :STARTPRE-2
-if "%args2%"=="skiptoolchk" call log %logger% I 跳过检查工具& goto STARTPRE-DONE
-::ECHO.检查calc.bat...
-if not exist calc.bat ECHOC {%c_e%}找不到calc.bat{%c_i%}{\n}& call log %logger% F 找不到calc.bat& goto FATAL
-::ECHO.检查chkdev.bat...
-if not exist chkdev.bat ECHOC {%c_e%}找不到chkdev.bat{%c_i%}{\n}& call log %logger% F 找不到chkdev.bat& goto FATAL
-::ECHO.检查clean.bat...
-if not exist clean.bat ECHOC {%c_e%}找不到clean.bat{%c_i%}{\n}& call log %logger% F 找不到clean.bat& goto FATAL
-::ECHO.检查dl.bat...
-if not exist dl.bat ECHOC {%c_e%}找不到dl.bat{%c_i%}{\n}& call log %logger% F 找不到dl.bat& goto FATAL
-::ECHO.检查imgkit.bat...
-if not exist imgkit.bat ECHOC {%c_e%}找不到imgkit.bat{%c_i%}{\n}& call log %logger% F 找不到imgkit.bat& goto FATAL
-::ECHO.检查info.bat...
-if not exist info.bat ECHOC {%c_e%}找不到info.bat{%c_i%}{\n}& call log %logger% F 找不到info.bat& goto FATAL
-::ECHO.检查input.bat...
-if not exist input.bat ECHOC {%c_e%}找不到input.bat{%c_i%}{\n}& call log %logger% F 找不到input.bat& goto FATAL
-::ECHO.检查open.bat...
-if not exist open.bat ECHOC {%c_e%}找不到open.bat{%c_i%}{\n}& call log %logger% F 找不到open.bat& goto FATAL
-::ECHO.检查partable.bat...
-if not exist partable.bat ECHOC {%c_e%}找不到partable.bat{%c_i%}{\n}& call log %logger% F 找不到partable.bat& goto FATAL
-::ECHO.检查random.bat...
-if not exist random.bat ECHOC {%c_e%}找不到random.bat{%c_i%}{\n}& call log %logger% F 找不到random.bat& goto FATAL
-::ECHO.检查read.bat...
-if not exist read.bat ECHOC {%c_e%}找不到read.bat{%c_i%}{\n}& call log %logger% F 找不到read.bat& goto FATAL
-::ECHO.检查reboot.bat...
-if not exist reboot.bat ECHOC {%c_e%}找不到reboot.bat{%c_i%}{\n}& call log %logger% F 找不到reboot.bat& goto FATAL
-::ECHO.检查scrcpy.bat...
-if not exist scrcpy.bat ECHOC {%c_e%}找不到scrcpy.bat{%c_i%}{\n}& call log %logger% F 找不到scrcpy.bat& goto FATAL
-::ECHO.检查sel.bat...
-if not exist sel.bat ECHOC {%c_e%}找不到sel.bat{%c_i%}{\n}& call log %logger% F 找不到sel.bat& goto FATAL
-::ECHO.检查slot.bat...
-if not exist slot.bat ECHOC {%c_e%}找不到slot.bat{%c_i%}{\n}& call log %logger% F 找不到slot.bat& goto FATAL
-::ECHO.检查write.bat...
-if not exist write.bat ECHOC {%c_e%}找不到write.bat{%c_i%}{\n}& call log %logger% F 找不到write.bat& goto FATAL
-::ECHO.检查Notepad3...
-::if not exist tool\Win\Notepad3\Notepad3.exe ECHOC {%c_e%}找不到Notepad3.exe{%c_i%}{\n}& call log %logger% F 找不到Notepad3.exe& goto FATAL
-::ECHO.检查scrcpy...
-::if not exist tool\Win\scrcpy\scrcpy.exe ECHOC {%c_e%}找不到scrcpy.exe{%c_i%}{\n}& call log %logger% F 找不到scrcpy.exe& goto FATAL
-::tool\Win\scrcpy\scrcpy.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}scrcpy.exe无法运行{%c_i%}{\n}&& call log %logger% F scrcpy.exe无法运行&& goto FATAL
-::ECHO.检查Vieas...
-::if not exist tool\Win\Vieas\Vieas.exe ECHOC {%c_e%}找不到Vieas.exe{%c_i%}{\n}& call log %logger% F 找不到Vieas.exe& goto FATAL
-::ECHO.检查7z...
-::if not exist tool\Win\7z.dll ECHOC {%c_e%}找不到7z.dll{%c_i%}{\n}& call log %logger% F 找不到7z.dll& goto FATAL
-::if not exist tool\Win\7z.exe ECHOC {%c_e%}找不到7z.exe{%c_i%}{\n}& call log %logger% F 找不到7z.exe& goto FATAL
-::7z.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}7z.exe无法运行{%c_i%}{\n}&& call log %logger% F 7z.exe无法运行&& goto FATAL
-::ECHO.检查adb...
-if not exist tool\Win\adb.exe ECHOC {%c_e%}找不到adb.exe{%c_i%}{\n}& call log %logger% F 找不到adb.exe& goto FATAL
-if not exist tool\Win\AdbWinApi.dll ECHOC {%c_e%}找不到AdbWinApi.dll{%c_i%}{\n}& call log %logger% F 找不到AdbWinApi.dll& goto FATAL
-if not exist tool\Win\AdbWinUsbApi.dll ECHOC {%c_e%}找不到AdbWinUsbApi.dll{%c_i%}{\n}& call log %logger% F 找不到AdbWinUsbApi.dll& goto FATAL
+if "%args2%"=="skiptoolchk" call log %logger% I Chinese text& goto STARTPRE-DONE
+::ECHO. Chinese text calc.bat...
+if not exist calc.bat ECHOC {%c_e%}Chinese text calc.bat{%c_i%}{\n}& call log %logger% F Chinese text calc.bat& goto FATAL
+::ECHO. Chinese text chkdev.bat...
+if not exist chkdev.bat ECHOC {%c_e%}Chinese text chkdev.bat{%c_i%}{\n}& call log %logger% F Chinese text chkdev.bat& goto FATAL
+::ECHO. Chinese text clean.bat...
+if not exist clean.bat ECHOC {%c_e%}Chinese text clean.bat{%c_i%}{\n}& call log %logger% F Chinese text clean.bat& goto FATAL
+::ECHO. Chinese text dl.bat...
+if not exist dl.bat ECHOC {%c_e%}Chinese text dl.bat{%c_i%}{\n}& call log %logger% F Chinese text dl.bat& goto FATAL
+::ECHO. Chinese text imgkit.bat...
+if not exist imgkit.bat ECHOC {%c_e%}Chinese text imgkit.bat{%c_i%}{\n}& call log %logger% F Chinese text imgkit.bat& goto FATAL
+::ECHO. Chinese text info.bat...
+if not exist info.bat ECHOC {%c_e%}Chinese text info.bat{%c_i%}{\n}& call log %logger% F Chinese text info.bat& goto FATAL
+::ECHO. Chinese text input.bat...
+if not exist input.bat ECHOC {%c_e%}Chinese text input.bat{%c_i%}{\n}& call log %logger% F Chinese text input.bat& goto FATAL
+::ECHO. Chinese text open.bat...
+if not exist open.bat ECHOC {%c_e%}Chinese text open.bat{%c_i%}{\n}& call log %logger% F Chinese text open.bat& goto FATAL
+::ECHO. Chinese text partable.bat...
+if not exist partable.bat ECHOC {%c_e%}Chinese text partable.bat{%c_i%}{\n}& call log %logger% F Chinese text partable.bat& goto FATAL
+::ECHO. Chinese text random.bat...
+if not exist random.bat ECHOC {%c_e%}Chinese text random.bat{%c_i%}{\n}& call log %logger% F Chinese text random.bat& goto FATAL
+::ECHO. Chinese text read.bat...
+if not exist read.bat ECHOC {%c_e%}Chinese text read.bat{%c_i%}{\n}& call log %logger% F Chinese text read.bat& goto FATAL
+::ECHO. Chinese text reboot.bat...
+if not exist reboot.bat ECHOC {%c_e%}Chinese text reboot.bat{%c_i%}{\n}& call log %logger% F Chinese text reboot.bat& goto FATAL
+::ECHO. Chinese text scrcpy.bat...
+if not exist scrcpy.bat ECHOC {%c_e%}Chinese text scrcpy.bat{%c_i%}{\n}& call log %logger% F Chinese text scrcpy.bat& goto FATAL
+::ECHO. Chinese text sel.bat...
+if not exist sel.bat ECHOC {%c_e%}Chinese text sel.bat{%c_i%}{\n}& call log %logger% F Chinese text sel.bat& goto FATAL
+::ECHO. Chinese text slot.bat...
+if not exist slot.bat ECHOC {%c_e%}Chinese text slot.bat{%c_i%}{\n}& call log %logger% F Chinese text slot.bat& goto FATAL
+::ECHO. Chinese text write.bat...
+if not exist write.bat ECHOC {%c_e%}Chinese text write.bat{%c_i%}{\n}& call log %logger% F Chinese text write.bat& goto FATAL
+::ECHO. Chinese text Notepad3...
+::if not exist tool\Win\Notepad3\Notepad3.exe ECHOC {%c_e%}Chinese text Notepad3.exe{%c_i%}{\n}& call log %logger% F Chinese text Notepad3.exe& goto FATAL
+::ECHO. Chinese text scrcpy...
+::if not exist tool\Win\scrcpy\scrcpy.exe ECHOC {%c_e%}Chinese text scrcpy.exe{%c_i%}{\n}& call log %logger% F Chinese text scrcpy.exe& goto FATAL
+::tool\Win\scrcpy\scrcpy.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}scrcpy.exe Chinese text{%c_i%}{\n}&& call log %logger% F scrcpy.exe Chinese text&& goto FATAL
+::ECHO. Chinese text Vieas...
+::if not exist tool\Win\Vieas\Vieas.exe ECHOC {%c_e%}Chinese text Vieas.exe{%c_i%}{\n}& call log %logger% F Chinese text Vieas.exe& goto FATAL
+::ECHO. Chinese text 7z...
+::if not exist tool\Win\7z.dll ECHOC {%c_e%}Chinese text 7z.dll{%c_i%}{\n}& call log %logger% F Chinese text 7z.dll& goto FATAL
+::if not exist tool\Win\7z.exe ECHOC {%c_e%}Chinese text 7z.exe{%c_i%}{\n}& call log %logger% F Chinese text 7z.exe& goto FATAL
+::7z.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}7z.exe Chinese text{%c_i%}{\n}&& call log %logger% F 7z.exe Chinese text&& goto FATAL
+::ECHO. Chinese text adb...
+if not exist tool\Win\adb.exe ECHOC {%c_e%}Chinese text adb.exe{%c_i%}{\n}& call log %logger% F Chinese text adb.exe& goto FATAL
+if not exist tool\Win\AdbWinApi.dll ECHOC {%c_e%}Chinese text AdbWinApi.dll{%c_i%}{\n}& call log %logger% F Chinese text AdbWinApi.dll& goto FATAL
+if not exist tool\Win\AdbWinUsbApi.dll ECHOC {%c_e%}Chinese text AdbWinUsbApi.dll{%c_i%}{\n}& call log %logger% F Chinese text AdbWinUsbApi.dll& goto FATAL
 adb.exe start-server>nul
-adb.exe devices | find "List of devices attached" 1>nul 2>nul || ECHOC {%c_e%}adb.exe无法运行{%c_i%}{\n}&& call log %logger% F adb.exe无法运行&& goto FATAL
-::ECHO.检查aria2c...
-::if not exist tool\Win\aria2c.exe ECHOC {%c_e%}找不到aria2c.exe{%c_i%}{\n}& call log %logger% F 找不到aria2c.exe& goto FATAL
-::aria2c.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}aria2c.exe无法运行{%c_i%}{\n}&& call log %logger% F aria2c.exe无法运行&& goto FATAL
-::ECHO.检查busybox...
-if not exist tool\Win\busybox.exe ECHOC {%c_e%}找不到busybox.exe{%c_i%}{\n}& call log %logger% F 找不到busybox.exe& goto FATAL
-busybox.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}busybox.exe无法运行{%c_i%}{\n}&& call log %logger% F busybox.exe无法运行&& goto FATAL
-::ECHO.检查busybox-bfflogviewer...
-::if not exist tool\Win\busybox-bfflogviewer.exe ECHOC {%c_e%}找不到busybox-bfflogviewer.exe{%c_i%}{\n}& call log %logger% F 找不到busybox-bfflogviewer.exe& goto FATAL
-::busybox-bfflogviewer.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}busybox-bfflogviewer.exe无法运行{%c_i%}{\n}&& call log %logger% F busybox-bfflogviewer.exe无法运行&& goto FATAL
-::ECHO.检查calc...
-if not exist tool\Win\calc.exe ECHOC {%c_e%}找不到calc.exe{%c_i%}{\n}& call log %logger% F 找不到calc.exe& goto FATAL
-for /f %%a in ('calc.exe 2199023255552 m 999 6') do (if not "%%a"=="2196824232296448.000000" ECHOC {%c_e%}calc.exe无法运行{%c_i%}{\n}& call log %logger% F calc.exe无法运行& goto FATAL)
-::ECHO.检查curl...
-::if not exist tool\Win\curl.exe ECHOC {%c_e%}找不到curl.exe{%c_i%}{\n}& call log %logger% F 找不到curl.exe& goto FATAL
-::curl.exe --help | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}curl.exe无法运行{%c_i%}{\n}&& call log %logger% F curl.exe无法运行&& goto FATAL
-::ECHO.检查devcon...
-if not exist tool\Win\devcon.exe ECHOC {%c_e%}找不到devcon.exe{%c_i%}{\n}& call log %logger% F 找不到devcon.exe& goto FATAL
-devcon.exe help | find "Device" 1>nul 2>nul || ECHOC {%c_e%}devcon.exe无法运行{%c_i%}{\n}&& call log %logger% F devcon.exe无法运行&& goto FATAL
-::ECHO.检查fastboot...
-if not exist tool\Win\fastboot.exe ECHOC {%c_e%}找不到fastboot.exe{%c_i%}{\n}& call log %logger% F 找不到fastboot.exe& goto FATAL
-fastboot.exe -h 2>&1 | find "usage" 1>nul 2>nul || ECHOC {%c_e%}fastboot.exe无法运行{%c_i%}{\n}&& call log %logger% F fastboot.exe无法运行&& goto FATAL
-::ECHO.检查fh_loader...
-if not exist tool\Win\fh_loader.exe ECHOC {%c_e%}找不到fh_loader.exe{%c_i%}{\n}& call log %logger% F 找不到fh_loader.exe& goto FATAL
-fh_loader.exe -6 2>&1 | find "Base" 1>nul 2>nul || ECHOC {%c_e%}fh_loader.exe无法运行{%c_i%}{\n}&& call log %logger% F fh_loader.exe无法运行&& goto FATAL
-::ECHO.检查filedialog...
-if not exist tool\Win\filedialog.exe ECHOC {%c_e%}找不到filedialog.exe{%c_i%}{\n}& call log %logger% F 找不到filedialog.exe& goto FATAL
-filedialog.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}filedialog.exe无法运行{%c_i%}{\n}&& call log %logger% F filedialog.exe无法运行&& goto FATAL
-::ECHO.检查gpttool...
-if not exist tool\Win\gpttool.exe ECHOC {%c_e%}找不到gpttool.exe{%c_i%}{\n}& call log %logger% F 找不到gpttool.exe& goto FATAL
-gpttool.exe -h 2>&1 | find "gpttool" 1>nul 2>nul || ECHOC {%c_e%}gpttool.exe无法运行{%c_i%}{\n}&& call log %logger% F gpttool.exe无法运行&& goto FATAL
-::ECHO.检查HexTool...
-::if not exist tool\Win\HexTool.exe ECHOC {%c_e%}找不到HexTool.exe{%c_i%}{\n}& call log %logger% F 找不到HexTool.exe& goto FATAL
-::HexTool.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}HexTool.exe无法运行{%c_i%}{\n}&& call log %logger% F HexTool.exe无法运行&& goto FATAL
-::ECHO.检查libcurl.def...
-::if not exist tool\Win\libcurl.def ECHOC {%c_e%}找不到libcurl.def{%c_i%}{\n}& call log %logger% F 找不到libcurl.def& goto FATAL
-::ECHO.检查libcurl.dll...
-::if not exist tool\Win\libcurl.dll ECHOC {%c_e%}找不到libcurl.dll{%c_i%}{\n}& call log %logger% F 找不到libcurl.dll& goto FATAL
-::ECHO.检查magiskboot...
-if not exist tool\Win\magiskboot.exe ECHOC {%c_e%}找不到magiskboot.exe{%c_i%}{\n}& call log %logger% F 找不到magiskboot.exe& goto FATAL
-magiskboot.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}magiskboot.exe无法运行{%c_i%}{\n}&& call log %logger% F magiskboot.exe无法运行&& goto FATAL
-::ECHO.检查numcomp...
-if not exist tool\Win\numcomp.exe ECHOC {%c_e%}找不到numcomp.exe{%c_i%}{\n}& call log %logger% F 找不到numcomp.exe& goto FATAL
-numcomp.exe 999 888 | find "greater" 1>nul 2>nul || ECHOC {%c_e%}numcomp.exe无法运行{%c_i%}{\n}&& call log %logger% F numcomp.exe无法运行&& goto FATAL
-::ECHO.检查qcedlxmlhelper...
-if not exist tool\Win\qcedlxmlhelper.exe ECHOC {%c_e%}找不到qcedlxmlhelper.exe{%c_i%}{\n}& call log %logger% F 找不到qcedlxmlhelper.exe& goto FATAL
-qcedlxmlhelper.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}qcedlxmlhelper.exe无法运行{%c_i%}{\n}&& call log %logger% F qcedlxmlhelper.exe无法运行&& goto FATAL
-::ECHO.检查QCNTool...
-::if not exist tool\Win\QCNTool.exe ECHOC {%c_e%}找不到QCNTool.exe{%c_i%}{\n}& call log %logger% F 找不到QCNTool.exe& goto FATAL
-::QCNTool.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}QCNTool.exe无法运行{%c_i%}{\n}&& call log %logger% F QCNTool.exe无法运行&& goto FATAL
-::ECHO.检查QMSL_MSVC10R.dll...
-::if not exist tool\Win\QMSL_MSVC10R.dll ECHOC {%c_e%}找不到QMSL_MSVC10R.dll{%c_i%}{\n}& call log %logger% F 找不到QMSL_MSVC10R.dll& goto FATAL
-::ECHO.检查QSaharaServer...
-if not exist tool\Win\QSaharaServer.exe ECHOC {%c_e%}找不到QSaharaServer.exe{%c_i%}{\n}& call log %logger% F 找不到QSaharaServer.exe& goto FATAL
-QSaharaServer.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}QSaharaServer.exe无法运行{%c_i%}{\n}&& call log %logger% F QSaharaServer.exe无法运行&& goto FATAL
-::ECHO.检查resizecmdwindow...
-::if not exist tool\Win\resizecmdwindow.exe ECHOC {%c_e%}找不到resizecmdwindow.exe{%c_i%}{\n}& call log %logger% F 找不到resizecmdwindow.exe& goto FATAL
-::resizecmdwindow.exe | find "usage" 1>nul 2>nul || ECHOC {%c_e%}resizecmdwindow.exe无法运行{%c_i%}{\n}&& call log %logger% F resizecmdwindow.exe无法运行&& goto FATAL
-::ECHO.检查simg_dump...
-if not exist tool\Win\simg_dump.exe ECHOC {%c_e%}找不到simg_dump.exe{%c_i%}{\n}& call log %logger% F 找不到simg_dump.exe& goto FATAL
-simg_dump.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}simg_dump.exe无法运行{%c_i%}{\n}&& call log %logger% F simg_dump.exe无法运行&& goto FATAL
-::ECHO.检查strtofile...
-if not exist tool\Win\strtofile.exe ECHOC {%c_e%}找不到strtofile.exe{%c_i%}{\n}& call log %logger% F 找不到strtofile.exe& goto FATAL
+adb.exe devices | find "List of devices attached" 1>nul 2>nul || ECHOC {%c_e%}adb.exe Chinese text{%c_i%}{\n}&& call log %logger% F adb.exe Chinese text&& goto FATAL
+::ECHO. Chinese text aria2c...
+::if not exist tool\Win\aria2c.exe ECHOC {%c_e%}Chinese text aria2c.exe{%c_i%}{\n}& call log %logger% F Chinese text aria2c.exe& goto FATAL
+::aria2c.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}aria2c.exe Chinese text{%c_i%}{\n}&& call log %logger% F aria2c.exe Chinese text&& goto FATAL
+::ECHO. Chinese text busybox...
+if not exist tool\Win\busybox.exe ECHOC {%c_e%}Chinese text busybox.exe{%c_i%}{\n}& call log %logger% F Chinese text busybox.exe& goto FATAL
+busybox.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}busybox.exe Chinese text{%c_i%}{\n}&& call log %logger% F busybox.exe Chinese text&& goto FATAL
+::ECHO. Chinese text busybox-bfflogviewer...
+::if not exist tool\Win\busybox-bfflogviewer.exe ECHOC {%c_e%}Chinese text busybox-bfflogviewer.exe{%c_i%}{\n}& call log %logger% F Chinese text busybox-bfflogviewer.exe& goto FATAL
+::busybox-bfflogviewer.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}busybox-bfflogviewer.exe Chinese text{%c_i%}{\n}&& call log %logger% F busybox-bfflogviewer.exe Chinese text&& goto FATAL
+::ECHO. Chinese text calc...
+if not exist tool\Win\calc.exe ECHOC {%c_e%}Chinese text calc.exe{%c_i%}{\n}& call log %logger% F Chinese text calc.exe& goto FATAL
+for /f %%a in ('calc.exe 2199023255552 m 999 6') do (if not "%%a"=="2196824232296448.000000" ECHOC {%c_e%}calc.exe Chinese text{%c_i%}{\n}& call log %logger% F calc.exe Chinese text& goto FATAL)
+::ECHO. Chinese text curl...
+::if not exist tool\Win\curl.exe ECHOC {%c_e%}Chinese text curl.exe{%c_i%}{\n}& call log %logger% F Chinese text curl.exe& goto FATAL
+::curl.exe --help | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}curl.exe Chinese text{%c_i%}{\n}&& call log %logger% F curl.exe Chinese text&& goto FATAL
+::ECHO. Chinese text devcon...
+if not exist tool\Win\devcon.exe ECHOC {%c_e%}Chinese text devcon.exe{%c_i%}{\n}& call log %logger% F Chinese text devcon.exe& goto FATAL
+devcon.exe help | find "Device" 1>nul 2>nul || ECHOC {%c_e%}devcon.exe Chinese text{%c_i%}{\n}&& call log %logger% F devcon.exe Chinese text&& goto FATAL
+::ECHO. Chinese text fastboot...
+if not exist tool\Win\fastboot.exe ECHOC {%c_e%}Chinese text fastboot.exe{%c_i%}{\n}& call log %logger% F Chinese text fastboot.exe& goto FATAL
+fastboot.exe -h 2>&1 | find "usage" 1>nul 2>nul || ECHOC {%c_e%}fastboot.exe Chinese text{%c_i%}{\n}&& call log %logger% F fastboot.exe Chinese text&& goto FATAL
+::ECHO. Chinese text fh_loader...
+if not exist tool\Win\fh_loader.exe ECHOC {%c_e%}Chinese text fh_loader.exe{%c_i%}{\n}& call log %logger% F Chinese text fh_loader.exe& goto FATAL
+fh_loader.exe -6 2>&1 | find "Base" 1>nul 2>nul || ECHOC {%c_e%}fh_loader.exe Chinese text{%c_i%}{\n}&& call log %logger% F fh_loader.exe Chinese text&& goto FATAL
+::ECHO. Chinese text filedialog...
+if not exist tool\Win\filedialog.exe ECHOC {%c_e%}Chinese text filedialog.exe{%c_i%}{\n}& call log %logger% F Chinese text filedialog.exe& goto FATAL
+filedialog.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}filedialog.exe Chinese text{%c_i%}{\n}&& call log %logger% F filedialog.exe Chinese text&& goto FATAL
+::ECHO. Chinese text gpttool...
+if not exist tool\Win\gpttool.exe ECHOC {%c_e%}Chinese text gpttool.exe{%c_i%}{\n}& call log %logger% F Chinese text gpttool.exe& goto FATAL
+gpttool.exe -h 2>&1 | find "gpttool" 1>nul 2>nul || ECHOC {%c_e%}gpttool.exe Chinese text{%c_i%}{\n}&& call log %logger% F gpttool.exe Chinese text&& goto FATAL
+::ECHO. Chinese text HexTool...
+::if not exist tool\Win\HexTool.exe ECHOC {%c_e%}Chinese text HexTool.exe{%c_i%}{\n}& call log %logger% F Chinese text HexTool.exe& goto FATAL
+::HexTool.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}HexTool.exe Chinese text{%c_i%}{\n}&& call log %logger% F HexTool.exe Chinese text&& goto FATAL
+::ECHO. Chinese text libcurl.def...
+::if not exist tool\Win\libcurl.def ECHOC {%c_e%}Chinese text libcurl.def{%c_i%}{\n}& call log %logger% F Chinese text libcurl.def& goto FATAL
+::ECHO. Chinese text libcurl.dll...
+::if not exist tool\Win\libcurl.dll ECHOC {%c_e%}Chinese text libcurl.dll{%c_i%}{\n}& call log %logger% F Chinese text libcurl.dll& goto FATAL
+::ECHO. Chinese text magiskboot...
+if not exist tool\Win\magiskboot.exe ECHOC {%c_e%}Chinese text magiskboot.exe{%c_i%}{\n}& call log %logger% F Chinese text magiskboot.exe& goto FATAL
+magiskboot.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}magiskboot.exe Chinese text{%c_i%}{\n}&& call log %logger% F magiskboot.exe Chinese text&& goto FATAL
+::ECHO. Chinese text numcomp...
+if not exist tool\Win\numcomp.exe ECHOC {%c_e%}Chinese text numcomp.exe{%c_i%}{\n}& call log %logger% F Chinese text numcomp.exe& goto FATAL
+numcomp.exe 999 888 | find "greater" 1>nul 2>nul || ECHOC {%c_e%}numcomp.exe Chinese text{%c_i%}{\n}&& call log %logger% F numcomp.exe Chinese text&& goto FATAL
+::ECHO. Chinese text qcedlxmlhelper...
+if not exist tool\Win\qcedlxmlhelper.exe ECHOC {%c_e%}Chinese text qcedlxmlhelper.exe{%c_i%}{\n}& call log %logger% F Chinese text qcedlxmlhelper.exe& goto FATAL
+qcedlxmlhelper.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}qcedlxmlhelper.exe Chinese text{%c_i%}{\n}&& call log %logger% F qcedlxmlhelper.exe Chinese text&& goto FATAL
+::ECHO. Chinese text QCNTool...
+::if not exist tool\Win\QCNTool.exe ECHOC {%c_e%}Chinese text QCNTool.exe{%c_i%}{\n}& call log %logger% F Chinese text QCNTool.exe& goto FATAL
+::QCNTool.exe -h | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}QCNTool.exe Chinese text{%c_i%}{\n}&& call log %logger% F QCNTool.exe Chinese text&& goto FATAL
+::ECHO. Chinese text QMSL_MSVC10R.dll...
+::if not exist tool\Win\QMSL_MSVC10R.dll ECHOC {%c_e%}Chinese text QMSL_MSVC10R.dll{%c_i%}{\n}& call log %logger% F Chinese text QMSL_MSVC10R.dll& goto FATAL
+::ECHO. Chinese text QSaharaServer...
+if not exist tool\Win\QSaharaServer.exe ECHOC {%c_e%}Chinese text QSaharaServer.exe{%c_i%}{\n}& call log %logger% F Chinese text QSaharaServer.exe& goto FATAL
+QSaharaServer.exe | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}QSaharaServer.exe Chinese text{%c_i%}{\n}&& call log %logger% F QSaharaServer.exe Chinese text&& goto FATAL
+::ECHO. Chinese text resizecmdwindow...
+::if not exist tool\Win\resizecmdwindow.exe ECHOC {%c_e%}Chinese text resizecmdwindow.exe{%c_i%}{\n}& call log %logger% F Chinese text resizecmdwindow.exe& goto FATAL
+::resizecmdwindow.exe | find "usage" 1>nul 2>nul || ECHOC {%c_e%}resizecmdwindow.exe Chinese text{%c_i%}{\n}&& call log %logger% F resizecmdwindow.exe Chinese text&& goto FATAL
+::ECHO. Chinese text simg_dump...
+if not exist tool\Win\simg_dump.exe ECHOC {%c_e%}Chinese text simg_dump.exe{%c_i%}{\n}& call log %logger% F Chinese text simg_dump.exe& goto FATAL
+simg_dump.exe 2>&1 | find "Usage" 1>nul 2>nul || ECHOC {%c_e%}simg_dump.exe Chinese text{%c_i%}{\n}&& call log %logger% F simg_dump.exe Chinese text&& goto FATAL
+::ECHO. Chinese text strtofile...
+if not exist tool\Win\strtofile.exe ECHOC {%c_e%}Chinese text strtofile.exe{%c_i%}{\n}& call log %logger% F Chinese text strtofile.exe& goto FATAL
 if exist %tmpdir%\bff-test.txt del %tmpdir%\bff-test.txt 1>nul
-echo.bff-test|strtofile.exe %tmpdir%\bff-test.txt || ECHOC {%c_e%}strtofile.exe无法运行{%c_i%}{\n}&& call log %logger% F strtofile.exe无法运行&& goto FATAL
-for /f %%a in (%tmpdir%\bff-test.txt) do (if not "%%a"=="bff-test" ECHOC {%c_e%}strtofile.exe无法运行{%c_i%}{\n}& call log %logger% F strtofile.exe无法运行& goto FATAL)
+echo.bff-test|strtofile.exe %tmpdir%\bff-test.txt || ECHOC {%c_e%}strtofile.exe Chinese text{%c_i%}{\n}&& call log %logger% F strtofile.exe Chinese text&& goto FATAL
+for /f %%a in (%tmpdir%\bff-test.txt) do (if not "%%a"=="bff-test" ECHOC {%c_e%}strtofile.exe Chinese text{%c_i%}{\n}& call log %logger% F strtofile.exe Chinese text& goto FATAL)
 del %tmpdir%\bff-test.txt 1>nul
-::ECHO.检查bootctl...
-if not exist tool\Android\bootctl ECHOC {%c_e%}找不到bootctl{%c_i%}{\n}& call log %logger% F 找不到bootctl& goto FATAL
-::ECHO.检查busybox...
-if not exist tool\Android\busybox ECHOC {%c_e%}找不到busybox{%c_i%}{\n}& call log %logger% F 找不到busybox& goto FATAL
-::ECHO.检查mke2fs...
-if not exist tool\Android\mke2fs ECHOC {%c_e%}找不到mke2fs{%c_i%}{\n}& call log %logger% F 找不到mke2fs& goto FATAL
-::ECHO.检查mkfs.exfat...
-if not exist tool\Android\mkfs.exfat ECHOC {%c_e%}找不到mkfs.exfat{%c_i%}{\n}& call log %logger% F 找不到mkfs.exfat& goto FATAL
-::ECHO.检查mkfs.fat...
-if not exist tool\Android\mkfs.fat ECHOC {%c_e%}找不到mkfs.fat{%c_i%}{\n}& call log %logger% F 找不到mkfs.fat& goto FATAL
-::ECHO.检查mkntfs...
-if not exist tool\Android\mkntfs ECHOC {%c_e%}找不到mkntfs{%c_i%}{\n}& call log %logger% F 找不到mkntfs& goto FATAL
-::ECHO.检查qualcomm_config.py...
-if not exist tool\Other\qualcomm_config.py ECHOC {%c_e%}找不到qualcomm_config.py{%c_i%}{\n}& call log %logger% F 找不到qualcomm_config.py& goto FATAL
+::ECHO. Chinese text bootctl...
+if not exist tool\Android\bootctl ECHOC {%c_e%}Chinese text bootctl{%c_i%}{\n}& call log %logger% F Chinese text bootctl& goto FATAL
+::ECHO. Chinese text busybox...
+if not exist tool\Android\busybox ECHOC {%c_e%}Chinese text busybox{%c_i%}{\n}& call log %logger% F Chinese text busybox& goto FATAL
+::ECHO. Chinese text mke2fs...
+if not exist tool\Android\mke2fs ECHOC {%c_e%}Chinese text mke2fs{%c_i%}{\n}& call log %logger% F Chinese text mke2fs& goto FATAL
+::ECHO. Chinese text mkfs.exfat...
+if not exist tool\Android\mkfs.exfat ECHOC {%c_e%}Chinese text mkfs.exfat{%c_i%}{\n}& call log %logger% F Chinese text mkfs.exfat& goto FATAL
+::ECHO. Chinese text mkfs.fat...
+if not exist tool\Android\mkfs.fat ECHOC {%c_e%}Chinese text mkfs.fat{%c_i%}{\n}& call log %logger% F Chinese text mkfs.fat& goto FATAL
+::ECHO. Chinese text mkntfs...
+if not exist tool\Android\mkntfs ECHOC {%c_e%}Chinese text mkntfs{%c_i%}{\n}& call log %logger% F Chinese text mkntfs& goto FATAL
+::ECHO. Chinese text qualcomm_config.py...
+if not exist tool\Other\qualcomm_config.py ECHOC {%c_e%}Chinese text qualcomm_config.py{%c_i%}{\n}& call log %logger% F Chinese text qualcomm_config.py& goto FATAL
 :STARTPRE-DONE
-call log %logger% I 启动准备工作完成
+call log %logger% I Chinese text
 ENDLOCAL
 goto :eof
 
 
 :ADBPRE
-call log framework.bat-adbpre I 接收变量:args2:%args2%
+call log framework.bat-adbpre I Chinese text:args2:%args2%
 if "%args2%"=="" set args2=all
 if "%args2%"=="all" (
     call write adbpush tool\Android\bootctl bootctl program
@@ -312,4 +313,4 @@ goto :eof
 
 
 :FATAL
-ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}抱歉, 脚本遇到问题, 无法继续运行. 请查看日志. {%c_h%}按任意键退出...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO.抱歉, 脚本遇到问题, 无法继续运行. 按任意键退出...& pause>nul & EXIT)
+ECHO. & if exist tool\Win\ECHOC.exe (tool\Win\ECHOC {%c_e%}Chinese text, Chinese text, Chinese text . Chinese text . {%c_h%}Chinese text ...{%c_i%}{\n}& pause>nul & EXIT) else (ECHO. Chinese text, Chinese text, Chinese text . Chinese text ...& pause>nul & EXIT)
